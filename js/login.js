@@ -2,11 +2,12 @@ $(function () {
     initEvent();
     $('#showTooltips').on('click', function(){
         let form_data = getFormData();
+        console.log(form_data);
         try {
             $.ajax({
                 timeout:1800000,
                 type: 'POST',
-                url: '/projects',
+                url: '/***',
                 // post payload:
                 data: JSON.stringify(form_data),
                 contentType: 'application/json',
