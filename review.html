@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入 WeUI CDN 链接 -->
+    <link href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-tree
+            :data="data"
+            :props="defaultProps"
+            @node-click="handleNodeClick"
+    >
+        <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ node.label }}</span>
+            <span>
+              <el-button
+                      type="text"
+                      size="mini">
+                {{node.label}}
+              </el-button>
+            </span>
+        </span>
+    </el-tree>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="js/lib/vue/vue.js"></script>
+<!-- import JavaScript -->
+<script src="js/lib/element/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                data: [{
+                    label: '太原',
+                    children: [{
+                        label: '迎泽区',
+                        children: [{
+                            label: '老军营社区卫生服务中心',
+                        }]
+                    },{
+                        label: '杏花岭区',
+                    }]
+                }, {
+                    label: '大同',
+                    children: [{
+                        label: '二级 2-1',
+                        children: [{
+                            label: '三级 2-1-1'
+                        }]
+                    }, {
+                        label: '二级 2-2',
+                        children: [{
+                            label: '三级 2-2-1'
+                        }]
+                    }]
+                }, {
+                    label: '吕梁',
+                    children: [{
+                        label: '二级 3-1',
+                        children: [{
+                            label: '三级 3-1-1'
+                        }]
+                    }, {
+                        label: '二级 3-2',
+                        children: [{
+                            label: '三级 3-2-1'
+                        }]
+                    }]
+                }],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                }
+            };
+        },
+        created(){
+
+        },
+        methods: {
+            handleNodeClick(data) {
+                console.log(data);
+            },
+        }
+    })
+</script>
+</html>
