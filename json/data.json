@@ -1,34 +1,52 @@
 {
   "data": [
     {
+      "id": 1,
       "label": "太原",
+      "votes": "100000",
       "children": [
         {
+          "id": 3,
           "label": "迎泽区",
+          "votes": "23%",
           "children": [
             {
-              "label": "老军营社区卫生服务中心"
+              "id": 7,
+              "label": "老军营社区卫生服务中心",
+              "votes": "156874",
+              "isClick": true
             }
           ]
         },
         {
-          "label": "杏花岭区"
+          "id": 4,
+          "label": "杏花岭区",
+          "votes": "84545"
         }
       ]
     },
     {
+      "id": 2,
       "label": "大同",
+      "votes": "9999",
       "children": [
         {
+          "id": 5,
           "label": "花花区",
+          "votes": "4844",
           "children": [
             {
-              "label": "小学生社区卫生服务中心"
+              "id": 8,
+              "label": "小学生社区卫生服务中心",
+              "votes": "5945",
+              "isClick": true
             }
           ]
         },
         {
-          "label": "静静区"
+          "id": 6,
+          "label": "静静区",
+          "votes": "515"
         }
       ]
     }

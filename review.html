@@ -18,9 +18,12 @@
 <body>
 <div id="app">
     <el-tree
+            node-key="id"
             :data="data"
             :props="defaultProps"
             @node-click="handleNodeClick"
+            accordion
+            highlight-current
     >
         <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
@@ -28,7 +31,7 @@
               <el-button
                       type="text"
                       size="mini">
-                {{node.label}}
+                {{data.votes}}
               </el-button>
             </span>
         </span>
@@ -53,13 +56,18 @@
         },
         created(){
             $.getJSON('./json/data.json', (data)=>{
-                console.log(this);
                 this.data = data.data;
             })
         },
         methods: {
             handleNodeClick(data) {
-                console.log(data);
+                //判断是否可点击
+                let isClick = data.isClick;
+                if (isClick != undefined){
+                    if (isClick){
+                        console.log('投票成功');
+                    }
+                }
             },
         }
     })

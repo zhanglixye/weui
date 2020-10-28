@@ -1,0 +1,21 @@
+.bold{
+    font-weight: bold;
+}
+.pb-5-blue{
+    padding-bottom: 5px;
+    border-bottom: 1px solid deepskyblue;
+}
+.mb-20{
+    margin-bottom: 20px;
+}
+.flex-center{
+    justify-content: center;
+    display: flex;
+}
+.weui-btn_default{
+    background-color: #bbbbbb;
+    color: rgb(255,255,255);
+}
+.cadetblue{
+    background-color: cadetblue;
+}
