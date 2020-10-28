@@ -18,12 +18,12 @@
 <body>
 <div id="app">
     <el-tree
-            node-key="id"
             :data="data"
             :props="defaultProps"
             @node-click="handleNodeClick"
             accordion
             highlight-current
+            node-key="id"
     >
         <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
@@ -55,7 +55,7 @@
             };
         },
         created(){
-            $.getJSON('./json/data.json', (data)=>{
+            $.getJSON('./json/parent.json', (data)=>{
                 this.data = data.data;
             })
         },
@@ -67,6 +67,27 @@
                     if (isClick){
                         console.log('投票成功');
                     }
+                }
+                //判断是否由children
+                let isChild = data.children;
+                let id = data.id;
+                let newChild;
+                if (isChild === null){
+                    if (id == 3){
+                        $.getJSON('./json/data.json', (res)=>{
+                            newChild = res.data;
+                            data.children = newChild;
+                        })
+                    }
+                    if (id == 5){
+                        $.getJSON('./json/data1.json', (res)=>{
+                            newChild = res.data;
+                            data.children = newChild;
+                        })
+                    }
+                };
+                if (!data.children) {
+                    this.$set(data, 'children', null);
                 }
             },
         }
