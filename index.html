@@ -33,7 +33,7 @@
                     <div class="weui-cell weui-cell_active weui-cell_access weui-cell_select weui-cell_select-after">
                         <div class="weui-cell__hd"><label class="weui-label">性别</label></div>
                         <div class="weui-cell__bd">
-                            <div class="weui-cell__bd" id="showPickerSex">男</div>
+                            <div class="weui-cell__bd" id="showPickerSex" value="0">男</div>
                         </div>
                     </div>
                     <div class="weui-cell weui-cell_active">
@@ -50,7 +50,7 @@
                     </div>
                     <div class="weui-cell weui-cell_active weui-cell_access weui-cell_select weui-cell_select-after">
                         <div class="weui-cell__hd"><label class="weui-label">体检周期</label></div>
-                        <div class="weui-cell__bd" id="showPickerBody">3个月</div>
+                        <div class="weui-cell__bd" id="showPickerBody" value="0">3个月</div>
                     </div>
                     <div class="weui-cell weui-cell_active cell_access hidden" id="showDatePicker">
                         <div class="weui-cell__bd">确诊时间</div>
@@ -68,9 +68,39 @@
                         <div class="weui-cell__hd"><label class="weui-label">是否用药</label></div>
                         <div class="weui-cell__bd" id="showPickerWhetherF">是</div>
                     </div>
-                    <div class="weui-cell weui-cell_active weui-cell_access weui-cell_select weui-cell_select-after hidden">
-                        <div class="weui-cell__hd"><label class="weui-label">是否服用以下药物（二甲双胍 格列美脲 瑞格列奈）</label></div>
-                        <div class="weui-cell__bd" id="showPickerWhetherD">二甲双胍</div>
+<!--                    <div class="weui-cell weui-cell_active weui-cell_access weui-cell_select weui-cell_select-after hidden">-->
+<!--                        <div class="weui-cell__hd"><label class="weui-label">是否服用以下药物（二甲双胍 格列美脲 瑞格列奈）</label></div>-->
+<!--                        <div class="weui-cell__bd" id="showPickerWhetherD">二甲双胍</div>-->
+<!--                    </div>-->
+                    <div class="weui-cells weui-cells_checkbox hidden" id="showPickerWhetherD">
+                        <div class="weui-cells__title" style="margin-top: 8px">是否服用以下药物</div>
+                        <label class="weui-cell weui-cell_active weui-check__label" for="s11">
+                            <div class="weui-cell__hd">
+                                <input type="checkbox" class="weui-check" name="checkbox1" id="s11" checked="checked"/>
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p id="s11_text">二甲双胍</p>
+                            </div>
+                        </label>
+                        <label class="weui-cell weui-cell_active weui-check__label" for="s12">
+                            <div class="weui-cell__hd">
+                                <input type="checkbox" name="checkbox1" class="weui-check" id="s12"/>
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p id="s12_text">格列美脲</p>
+                            </div>
+                        </label>
+                        <label class="weui-cell weui-cell_active weui-check__label" for="s13">
+                            <div class="weui-cell__hd">
+                                <input type="checkbox" name="checkbox1" class="weui-check" id="s13"/>
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p id="s13_text">瑞格列奈</p>
+                            </div>
+                        </label>
                     </div>
                 </div>
             </div>

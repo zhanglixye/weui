@@ -2,12 +2,12 @@ $(function () {
     initEvent();
     $('#showTooltips').on('click', function(){
         let form_data = getFormData();
-        console.log(form_data);
+        console.log(JSON.stringify(form_data));
         try {
             $.ajax({
                 timeout:1800000,
                 type: 'POST',
-                url: '/***',
+                url: '/test',
                 // post payload:
                 data: JSON.stringify(form_data),
                 contentType: 'application/json',
@@ -27,7 +27,7 @@ $(function () {
         }catch (e) {
             console.log(e);
         }
-        //weui.toast('已完成');
+        weui.toast('已完成');
     });
 })
 /**
@@ -47,8 +47,10 @@ function disease_judgment(man_disease,result) {
             $(this).removeClass('hidden');
         });
         $('#showPickerWhether').prev().text('是否伴有高血压 高血脂');
-        $('#showPickerWhetherD').text('二甲双胍');
-        $('#showPickerWhetherD').parent('div').removeClass('hidden');
+        $('#s11_text').text('二甲双胍');
+        $('#s12_text').text('格列美脲');
+        $('#s13_text').text('瑞格列奈');
+        $('#showPickerWhetherD').removeClass('hidden');
     }else if (man_disease == 1){
         $('.sugar').each(function () {
             $(this).removeClass('hidden');
@@ -57,13 +59,15 @@ function disease_judgment(man_disease,result) {
             $(this).addClass('hidden');
         });
         $('#showPickerWhether').prev().text('是否伴有糖尿病 高血脂');
-        $('#showPickerWhetherD').text('卡托普利');
-        $('#showPickerWhetherD').parent('div').removeClass('hidden');
+        $('#s11_text').text('卡托普利');
+        $('#s12_text').text('吲达帕胺');
+        $('#s13_text').text('尼莫地平');
+        $('#showPickerWhetherD').removeClass('hidden');
     }else {
         $('.sugar').each(function () {
             $(this).addClass('hidden');
         });
-        $('#showPickerWhetherD').parent('div').addClass('hidden');
+        $('#showPickerWhetherD').addClass('hidden');
     }
 }
 
@@ -105,6 +109,7 @@ function initEvent() {
             },
             onConfirm: function (result) {
                 $('#showPickerSex').text(result[0].label);
+                $('#showPickerSex').attr('value',result[0].value);
             },
             title: '单列选择器'
         });
@@ -138,6 +143,7 @@ function initEvent() {
                 },
                 onConfirm: function (result) {
                     $('#showPickerBody').text(result[0].label);
+                    $('#showPickerBody').attr('value',result[0].value);
                 },
                 title: '单列选择器'
             }
@@ -168,6 +174,7 @@ function initEvent() {
             onConfirm: function (result) {
                 let value = result[0].label;
                 $('#showPickerWhether').text(value);
+                $('#showPickerWhether').attr('value',result[0].value);
             },
             title: '多列选择器'
         })
@@ -180,6 +187,7 @@ function initEvent() {
             onConfirm: function (result) {
                 let value = result[0].label;
                 $('#showPickerWhetherT').text(value);
+                $('#showPickerWhetherT').attr('value',result[0].value);
             },
             title: '多列选择器'
         })
@@ -192,26 +200,7 @@ function initEvent() {
             onConfirm: function (result) {
                 let value = result[0].label;
                 $('#showPickerWhetherF').text(value);
-            },
-            title: '多列选择器'
-        })
-    });
-    $('#showPickerWhetherD').on('click',function () {
-        let data;
-        if ($('#showPicker').attr('value') == 0){
-            data = [{label:"二甲双胍",value:0},{label:"格列美脲",value:1},{label:"瑞格列奈",value:2}];
-        }else if ($('#showPicker').attr('value') == 1){
-            data = [{label:"卡托普利",value:0},{label:"吲达帕胺",value:1},{label:"尼莫地平",value:2}];
-        }else {
-            data = [];
-        }
-        weui.picker(data,{
-            onChange: function (result) {
-                //console.log(result);
-            },
-            onConfirm: function (result) {
-                let value = result[0].label;
-                $('#showPickerWhetherD').text(value);
+                $('#showPickerWhetherF').attr('value',result[0].value);
             },
             title: '多列选择器'
         })
@@ -224,16 +213,16 @@ function initEvent() {
  */
 function getFormData() {
     let obj = {
-        person_type:$('#showPicker').text(),
-        sex:$('#showPickerSex').text(),
-        age:$('#js_input2').text(),
-        address:$('#js_input3').text(),
-        phy_cycle:$('#showPickerBody').text(),
+        person_type:$('#showPicker').attr('value'),
+        sex:$('#showPickerSex').attr('value'),
+        age:$('#js_input2').val(),
+        address:$('#js_input3').val(),
+        phy_cycle:$('#showPickerBody').attr('value'),
         time:$('#showDatePicker').find('.weui-cell__ft').text(),
         is_high:$('#showPickerWhether').text() == '是'?true:false,
         is_insulin:$('#showPickerWhetherT').text() == '是'?true:false,
         is_medicine:$('#showPickerWhetherF').text() == '是'?true:false,
-        is_eat_medicine:$('#showPickerWhetherD').text()
+        is_eat_medicine:[$('#s11').prop('checked'),$('#s12').prop('checked'),$('#s13').prop('checked')]
     }
     return obj;
 }
