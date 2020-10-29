@@ -19,14 +19,14 @@ function initEventAppraise(){
         $(this).addClass('cadetblue');
     });
     $('#sumbit').on('click',function () {
-        let arr = [];
-        $('.cadetblue').each(function (index,item) {
-            let value = $(item).attr('value');
-            arr.push(value);
-        })
+        let obj = {};
+        obj.type1 = $('.type1 .cadetblue').attr('value');
+        obj.type2 = $('.type2 .cadetblue').attr('value');
+        obj.type3 = $('.type3 .cadetblue').attr('value');
+        obj.type4 = $('.type4 .cadetblue').attr('value');
         let area_input = $('.input_area').val();
-        arr.push(area_input);
-        let json = JSON.stringify(arr);
+        obj.type5 = area_input;
+        let json = JSON.stringify(obj);
         console.log(json);
         weui.toast('提交成功');
     })
