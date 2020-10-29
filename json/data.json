@@ -3,7 +3,13 @@
     {
       "id": 7,
       "label": "老军营社区卫生服务中心",
-      "votes": "156874",
+      "votes": "",
+      "isClick": true
+    },
+    {
+      "id": 9,
+      "label": "老炮营社区卫生服务中心",
+      "votes": "",
       "isClick": true
     }
   ]

@@ -71,18 +71,29 @@
                 //判断是否由children
                 let isChild = data.children;
                 let id = data.id;
-                let newChild;
                 if (isChild === null){
                     if (id == 3){
                         $.getJSON('./json/data.json', (res)=>{
-                            newChild = res.data;
-                            data.children = newChild;
+                            data.children = res.data;
+                            $.getJSON('./json/votes.json', (res)=>{
+                                let newChild = data.children;
+                                let newChildRes = res.data;
+                                for (let i = 0;i < newChild.length;i ++){
+                                    Object.assign(newChild[i],newChildRes[i]);
+                                }
+                            })
                         })
                     }
                     if (id == 5){
                         $.getJSON('./json/data1.json', (res)=>{
-                            newChild = res.data;
-                            data.children = newChild;
+                            data.children = res.data;
+                            $.getJSON('./json/votes1.json', (res)=>{
+                                let newChild = data.children;
+                                let newChildRes = res.data;
+                                for (let i = 0;i < newChild.length;i ++){
+                                    Object.assign(newChild[i],newChildRes[i]);
+                                }
+                            })
                         })
                     }
                 };

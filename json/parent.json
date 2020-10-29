@@ -3,36 +3,36 @@
     {
       "id": 1,
       "label": "太原",
-      "votes": "100000",
+      "votes": "",
       "children": [
         {
           "id": 3,
           "label": "迎泽区",
-          "votes": "23%",
+          "votes": "",
           "children":null
         },
         {
           "id": 4,
           "label": "杏花岭区",
-          "votes": "84545"
+          "votes": ""
         }
       ]
     },
     {
       "id": 2,
       "label": "大同",
-      "votes": "9999",
+      "votes": "",
       "children": [
         {
           "id": 5,
           "label": "花花区",
-          "votes": "4844",
+          "votes": "",
           "children":null
         },
         {
           "id": 6,
           "label": "静静区",
-          "votes": "515"
+          "votes": ""
         }
       ]
     }
