@@ -19,6 +19,15 @@ function initEventAppraise(){
         $(this).addClass('cadetblue');
     });
     $('#sumbit').on('click',function () {
-        console.log('提交');
+        let arr = [];
+        $('.cadetblue').each(function (index,item) {
+            let value = $(item).attr('value');
+            arr.push(value);
+        })
+        let area_input = $('.input_area').val();
+        arr.push(area_input);
+        let json = JSON.stringify(arr);
+        console.log(json);
+        weui.toast('提交成功');
     })
 };
