@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width,initial-scale=1,user-scalable=0" name="viewport">
+    <title>服务对象满意度成绩展示</title>
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="lib/theme-chalk/index.css">
     <!-- 引入 WeUI CDN 链接 -->
-    <link href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css" rel="stylesheet"/>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+    <link href="css/weui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/weui.min.js"></script>
     <script src="js/lib/zepto/zepto.js" type="text/javascript"></script>
     <script src="js/lib/zepto/event.js" type="text/javascript"></script>
     <script src="js/lib/zepto/touch.js" type="text/javascript"></script>
@@ -15,6 +16,16 @@
     <script src="js/lib/zepto/fx.js" type="text/javascript"></script>
     <script src="js/lib/zepto/ajax.js" type="text/javascript"></script>
 </head>
+<style>
+    .el-tree .el-tree-node__content{
+        height: 50px;
+    }
+    .custom-tree-node{
+        display: flex;
+        width: 85%;
+        justify-content: space-between;
+    }
+</style>
 <body>
 <div id="app">
     <el-tree
@@ -24,6 +35,8 @@
             accordion
             highlight-current
             node-key="id"
+            lazy
+            :load="getOrgList"
     >
         <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
@@ -36,6 +49,13 @@
             </span>
         </span>
     </el-tree>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
 </div>
 </body>
 <!-- import Vue before Element -->
@@ -50,57 +70,131 @@
                 data: null,
                 defaultProps: {
                     children: 'children',
-                    label: 'label'
+                    label: 'label',
+                    isLeaf: 'isClick'
                 }
             };
         },
         created(){
-            $.getJSON('./json/parent.json', (data)=>{
+            //截取url
+            let version = window.location.href.split('?')[1];
+            //city json 的请求
+            $.getJSON('./json/city.json?'+ version, (data)=>{
                 this.data = data.data;
+                //city 数据接口的数据的返回
+                $.ajax({
+                    type: 'POST',
+                    url: '/gateway/dynamic/restapi/group_result',
+                    success: (re) => {
+                        let res = re.data;
+                        for (let i = 0;i < this.data.length;i ++){
+                            this.data[i]['votes'] = res[this.data[i]['id']];
+                            for (let j = 0;j < this.data[i].children.length; j ++){
+                                this.data[i].children[j]['votes'] = res[this.data[i].children[j]['id']];
+                                for (let k = 0;k < this.data[i].children[j].children.length;k ++){
+                                    this.data[i].children[j].children[k]['votes'] = res[this.data[i].children[j].children[k]['id']];
+                                }
+                            }
+                        }
+                        //前端排序
+                        //街道
+                        for (let i = 0;i < this.data.length;i ++){
+                            for (let j = 0;j < this.data[i].children.length; j ++){
+                                this.data[i].children[j].children.sort(this.compare('votes'));
+                            }
+                        }
+                        //区
+                        for (let i = 0;i < this.data.length;i ++){
+                            this.data[i].children.sort(this.compare('votes'));
+                        }
+                    },
+                    error:function (err) {
+                        $('#toast').find('.weui-toast__content').text('服务异常');
+                        $('#toast').fadeIn(100);
+                        setTimeout(function () {
+                            $('#toast').fadeOut(100);
+                        }, 1000);
+                    }
+                })
             })
         },
         methods: {
+            //服务站投票跳转
             handleNodeClick(data) {
                 //判断是否可点击
                 let isClick = data.isClick;
                 if (isClick != undefined){
                     if (isClick){
-                        console.log('投票成功');
+                        let response_id = data.id;
+                        sessionStorage.setItem('institutionId',response_id);
+                        window.location.href = 'appraise.html';
                     }
-                }
-                //判断是否由children
-                let isChild = data.children;
-                let id = data.id;
-                if (isChild === null){
-                    if (id == 3){
-                        $.getJSON('./json/data.json', (res)=>{
-                            data.children = res.data;
-                            $.getJSON('./json/votes.json', (res)=>{
-                                let newChild = data.children;
-                                let newChildRes = res.data;
-                                for (let i = 0;i < newChild.length;i ++){
-                                    Object.assign(newChild[i],newChildRes[i]);
-                                }
-                            })
-                        })
-                    }
-                    if (id == 5){
-                        $.getJSON('./json/data1.json', (res)=>{
-                            data.children = res.data;
-                            $.getJSON('./json/votes1.json', (res)=>{
-                                let newChild = data.children;
-                                let newChildRes = res.data;
-                                for (let i = 0;i < newChild.length;i ++){
-                                    Object.assign(newChild[i],newChildRes[i]);
-                                }
-                            })
-                        })
-                    }
-                };
-                if (!data.children) {
-                    this.$set(data, 'children', null);
                 }
             },
+            //懒加载服务站数据请求
+            getOrgList(node,resolve){
+                if (node.level == 3){
+                    let id = node.data.id;
+                    let isChild = node.data.children;
+                    //判断是否由children
+                    if (isChild === null){
+                        let version = window.location.href.split('?')[1];
+                        $.getJSON('./json/'+id+'.json?' + version, (res)=>{
+                            node.data.children = res.data;
+                            $.ajax({
+                                type: 'POST',
+                                url: '/gateway/dynamic/restapi/detail_result',
+                                data: id,
+                                success: (re) => {
+                                    let res = re.data;
+                                    for (let i = 0;i < node.data.children.length;i ++){
+                                        node.data.children[i]['votes'] = res[node.data.children[i]['id']];
+                                    }
+                                    //服务站
+                                    node.data.children.sort(this.compare('votes'))
+                                    resolve(node.data.children);
+                                },
+                                error:function (err) {
+                                    $('#toast').find('.weui-toast__content').text('服务异常');
+                                    $('#toast').fadeIn(100);
+                                    setTimeout(function () {
+                                        $('#toast').fadeOut(100);
+                                    }, 1000);
+                                }
+                            })
+                        })
+                    }
+                    // if (!data.children) {
+                    //     this.$set(data, 'children', null);
+                    // }
+                }else if (node.level == 1 || node.level == 2){
+                    let isChild = node.data.children;
+                    resolve(isChild);
+                }else {
+                    resolve([]);
+                }
+            },
+            //数字排序降序函数
+            compare(property) {
+                return (a, b) => {
+                    let value1 = a[property];
+                    let value2 = b[property];
+                    if (value1 == undefined || value2== undefined){
+                        return 1;
+                    }
+                    return this.stringToCode(value2) - this.stringToCode(value1);
+                }
+            },
+            //字符串转ascii码
+            stringToCode(str){
+                let m = 0;
+                for(let i=str.length-1;i>=0;i--){
+                    let n = str.charAt(i);
+                    let code = n.charCodeAt();
+                    m += code;
+                }
+                return m;
+            }
         }
     })
 </script>

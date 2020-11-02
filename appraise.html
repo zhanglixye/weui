@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width,initial-scale=1,user-scalable=0" name="viewport">
-    <title>WeUI</title>
+    <title>满意度调查</title>
     <!-- 引入 WeUI CDN 链接 -->
     <link href="https://res.wx.qq.com/open/libs/weui/2.3.0/weui.min.css" rel="stylesheet"/>
-    <link href="./css/appraise.css" rel="stylesheet"/>
+    <link href="./css/appraise.css?version=123" rel="stylesheet"/>
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
     <script src="js/lib/zepto/zepto.js" type="text/javascript"></script>
     <script src="js/lib/zepto/event.js" type="text/javascript"></script>
@@ -14,15 +14,25 @@
     <script src="js/lib/zepto/fx_methods.js" type="text/javascript"></script>
     <script src="js/lib/zepto/fx.js" type="text/javascript"></script>
     <script src="js/lib/zepto/ajax.js" type="text/javascript"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js" type="text/javascript"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js" type="text/javascript"></script>
     <script src="js/appraise.js" type="text/javascript"></script>
+	<script type="text/javascript">
+    function init(){
+        let mchData ={action:'onIframeReady',displayStyle:'SHOW_CUSTOM_PAGE',height:960};
+        let postData = JSON.stringify(mchData);
+        window.parent.postMessage(postData,'https://payapp.weixin.qq.com')
+    }　  
+    window.onload = init;
+	</script>
 </head>
+<style>
+    .weui-btn_mini{
+        font-size: 13px;
+    }
+</style>
 <body>
     <div class="page">
-        <div class="weui-form">
-            <div class="weui-form__text-area">
-                <h2 class="weui-form__title">公共卫生服务能力监控平台</h2>
-            </div>
+        <div class="weui-form" style="padding-top: 0">
             <div class="weui-form__text-area mb-20">
                 <div class="weui-form__desc">
                     <span class="pb-5-blue">
@@ -32,23 +42,11 @@
             </div>
             <div class="type1">
                 <div class="weui-flex mb-20">
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="0">非常满意</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="1">满意</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="2">比较满意</a>
-                    </div>
-                </div>
-                <div class="weui-flex">
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="3">一般</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="4">不满意</a>
-                    </div>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="0">非常满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="1">满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="2">比较满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="3">一般</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_1" value="4">不满意</a>
                 </div>
             </div>
             <div class="weui-form__text-area mb-20">
@@ -60,23 +58,11 @@
             </div>
             <div class="type2">
                 <div class="weui-flex mb-20">
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="0">非常满意</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="1">满意</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="2">比较满意</a>
-                    </div>
-                </div>
-                <div class="weui-flex">
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="3">一般</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="4">不满意</a>
-                    </div>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="0">非常满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="1">满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="2">比较满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="3">一般</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_2" value="4">不满意</a>
                 </div>
             </div>
             <div class="weui-form__text-area mb-20">
@@ -88,23 +74,11 @@
             </div>
             <div class="type3">
                 <div class="weui-flex mb-20">
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="0">非常满意</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="1">满意</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="2">比较满意</a>
-                    </div>
-                </div>
-                <div class="weui-flex">
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="3">一般</a>
-                    </div>
-                    <div class="weui-flex__item flex-center">
-                        <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="4">不满意</a>
-                    </div>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="0">非常满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="1">满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="2">比较满意</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="3">一般</a>
+                    <a href="javascript:" class="weui-btn weui-btn_mini weui-btn_default eval_3" value="4">不满意</a>
                 </div>
             </div>
             <div class="weui-form__text-area mb-20">
@@ -132,8 +106,7 @@
                     <div class="weui-cell__bd">
                         <div class="weui-cells weui-cells_form">
                             <div class="weui-cell">
-                                <textarea class="weui-textarea input_area" placeholder="请描述你所发生的问题" rows="3"></textarea>
-                                <div class="weui-textarea-counter"><span>0</span>/200</div>
+                                <textarea class="weui-textarea input_area" placeholder="请描述你所发生的问题" rows="1"></textarea>
                             </div>
                         </div>
                     </div>
@@ -144,7 +117,7 @@
             </div>
             <div class="page__bd page__bd_spacing">
                 <div class="weui-footer">
-                    <p class="weui-footer__text">以上的订单内容由商家提供<a>投诉</a></p>
+                    <p class="weui-footer__text"></p>
                 </div>
             </div>
         </div>

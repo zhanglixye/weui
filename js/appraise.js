@@ -20,14 +20,39 @@ function initEventAppraise(){
     });
     $('#sumbit').on('click',function () {
         let obj = {};
-        obj.type1 = $('.type1 .cadetblue').attr('value');
-        obj.type2 = $('.type2 .cadetblue').attr('value');
-        obj.type3 = $('.type3 .cadetblue').attr('value');
-        obj.type4 = $('.type4 .cadetblue').attr('value');
+        obj.institutionId = sessionStorage.getItem('institutionId') == null?'1_3_185':sessionStorage.getItem('institutionId');
+        obj.value1 = $('.type1 .cadetblue').attr('value');
+        obj.value2 = $('.type2 .cadetblue').attr('value');
+        obj.value3 = $('.type3 .cadetblue').attr('value');
+        obj.value4 = $('.type4 .cadetblue').attr('value');
         let area_input = $('.input_area').val();
-        obj.type5 = area_input;
-        let json = JSON.stringify(obj);
-        console.log(json);
-        weui.toast('提交成功');
+        obj.remarks = area_input;
+        //截取url
+        let version = window.location.href.split('?')[1];
+        try {
+            $.ajax({
+                timeout:1800000,
+                type: 'POST',
+                url: '/gateway/dynamic/restapi/vote?'+version,
+                // post payload:
+                data: JSON.stringify(obj),
+                contentType: 'application/json',
+                success:function (res) {
+                    if (res.status.code === 500){
+                        weui.toast(res.status.msg);
+                    }
+                    if (res.status.code === 200){
+                        window.location.href = 'finish.html';
+                    }
+                },
+                error:function (err) {
+                    if (err.status == 500){
+                        weui.toast('服务异常');
+                    }
+                }
+            })
+        }catch (e) {
+            console.log(e);
+        }
     })
 };
