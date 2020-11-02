@@ -2,43 +2,32 @@ $(function () {
     initEvent();
     $('#showTooltips').on('click', function(){
         let form_data = getFormData();
-        //console.log(JSON.stringify(form_data));
+        console.log(JSON.stringify(form_data));
         try {
             $.ajax({
                 timeout:1800000,
                 type: 'POST',
-                url: '/gateway/dynamic/restapi/register',
+                url: '/test',
                 // post payload:
                 data: JSON.stringify(form_data),
                 contentType: 'application/json',
+                beforeSend:function(){
+                    weui.loading("数据加载中");
+                },
+                complete:function(){
+                    $('.weui-toast').fadeOut();
+                },
                 success:function (res) {
-                    if (res.status.code == 500){
-                        let msg = res.status.msg;
-                        if (msg != ''){
-                            $('#toast').find('.weui-toast__content').text(msg);
-                            $('#toast').fadeIn(100);
-                            setTimeout(function () {
-                                $('#toast').fadeOut(100);
-                            }, 2000);
-                        }
-                    }
-                    if (res.status.code == 200){
-                        window.location.href = 'review.html';
-                    }
+                    console.log(res);
                 },
                 error:function (err) {
-                    if (err.status == 500){
-                        $('#toast').find('.weui-toast__content').text('服务异常');
-                        $('#toast').fadeIn(100);
-                        setTimeout(function () {
-                            $('#toast').fadeOut(100);
-                        }, 2000);
-                    }
+                    console.log(err);
                 }
             })
         }catch (e) {
             console.log(e);
         }
+        weui.toast('已完成');
     });
 })
 /**
@@ -224,16 +213,15 @@ function initEvent() {
  */
 function getFormData() {
     let obj = {
-    	userName:$('#js_input_name').val(),
         person_type:$('#showPicker').attr('value'),
-        gender:$('#showPickerSex').attr('value'),
+        sex:$('#showPickerSex').attr('value'),
         age:$('#js_input2').val(),
         address:$('#js_input3').val(),
-        cycleDetection:$('#showPickerBody').attr('value'),
-        diagnoseDate:$('#showDatePicker').find('.weui-cell__ft').text(),
-        hypertension1:$('#showPickerWhether').text() == '是'?"1":"0",
-        diabetes2:$('#showPickerWhetherT').text() == '是'?"1":"0",
-        diabetes3:$('#showPickerWhetherF').text() == '是'?"1":"0",
+        phy_cycle:$('#showPickerBody').attr('value'),
+        time:$('#showDatePicker').find('.weui-cell__ft').text(),
+        is_high:$('#showPickerWhether').text() == '是'?true:false,
+        is_insulin:$('#showPickerWhetherT').text() == '是'?true:false,
+        is_medicine:$('#showPickerWhetherF').text() == '是'?true:false,
         is_eat_medicine:[$('#s11').prop('checked'),$('#s12').prop('checked'),$('#s13').prop('checked')]
     }
     return obj;
